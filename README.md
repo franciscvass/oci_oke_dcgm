@@ -1,4 +1,3 @@
-# orm_stack_oke_helm_dcgm-exporter
 
 ## Getting started
 
