@@ -1,0 +1,24 @@
+# ORM injected values
+
+region            = "eu-frankfurt-1"
+tenancy_ocid      = "ocid1.tenancy.oc1..aaaaaaaaiyavtwbz4kyu7g7b6wglllccbflmjx2lzk5nwpbme44mv54xu7dq"
+compartment_ocid  = "<compartment_id>"
+current_user_ocid = "test"
+
+# OKE Terraform module values
+create_iam_resources     = false
+create_iam_tag_namespace = false
+ssh_public_key           = "<ssh-public-key>"
+
+cluster_name                = "oke"
+vcn_name                    = "oke-vcn"
+simple_np_flex_shape        = { "instanceShape" = "VM.Standard.E4.Flex", "ocpus" = 2, "memory" = 16 }
+compartment_id              = "<compartment_id>"
+create_operator_and_bastion = false
+control_plane_is_public     = true
+deploy_nginx                = true
+nginx_user_values_override  = <<-EOT
+controller:
+  metrics:
+    enabled: true
+EOT

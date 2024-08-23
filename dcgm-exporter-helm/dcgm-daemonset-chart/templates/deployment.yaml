@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: dcgm-exporter
+  labels:
+    app: dcgm-exporter
+spec:
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: dcgm-exporter
+  template:
+    metadata:
+      labels:
+        app: dcgm-exporter
+    spec:
+      containers:
+      - name: dcgm-exporter
+        image: nvcr.io/nvidia/k8s/dcgm-exporter:{{ .Values.image.tag }}
+        args:
+          #- -r
+          #- localhost:5555
+          - -f
+          - /etc/dcgm-exporter/dcp-metrics-included.csv
+        ports:
+        - containerPort: 9400
+          hostPort: 9400
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+        securityContext:
+          capabilities:
+            add:
+              - SYS_ADMIN
+      tolerations:
+        - key: "nvidia.com/gpu"
+          operator: "Exists"
+          effect: "NoSchedule"
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.nodeSelector | nindent 10 }}
+      {{- end }}
+      {{- if .Values.affinity }}
+      affinity:
+        {{- toYaml .Values.affinity | nindent 10 }}
+      {{- end }}
