@@ -26,9 +26,6 @@ spec:
         ports:
         - containerPort: 9400
           hostPort: 9400
-        resources:
-          limits:
-            nvidia.com/gpu: 1
         securityContext:
           capabilities:
             add:
